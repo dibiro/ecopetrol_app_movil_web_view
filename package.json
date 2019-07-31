@@ -1,0 +1,51 @@
+{
+  "name": "EcoPetroPortalDigitalApp",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "devTools": "remotedev --hostname=localhost --port=8080 --realtime=true",
+    "reverses": "adb reverse tcp:8080 tcp:8080 && adb reverse tcp:9090 tcp:9090 && adb reverse tcp:8081 tcp:8081",
+    "start:reconect": "adb reverse tcp:8081 tcp:8081 && node node_modules/react-native/local-cli/cli.js start",
+    "reconnect": "adb reverse tcp:8081 tcp:8081",
+    "devmenu": "adb shell input keyevent 82",
+    "runBoth": "react-native run-android && react-native run-ios",
+    "ios": "react-native run-ios",
+    "test": "jest",
+    "clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm cache clean --force",
+    "newclear": "rm -rf $TMPDIR/react-* && watchman watch-del-all && rm -rf ios/build && rm -rf node_modules/ && npm cache clean --force && npm i",
+    "test:watch": "jest --watch",
+    "updateSnapshot": "jest --updateSnapshot",
+    "coverage": "jest --coverage && open coverage/lcov-report/index.html || xdg-open coverage/lcov-report/index.html",
+    "android": "react-native run-android",
+    "android:build": "cd android && ./gradlew assembleRelease && cd ..",
+    "android:clean": "cd android/ && ./gradlew clean && cd ..",
+    "android:release": "cd android/ && ./gradlew assembleRelease && cd ..",
+    "android:install": "cd android && ./gradlew installRelease && cd ..",
+    "android:hockeyapp": "cd android && ./gradlew assembleRelease && puck -submit=auto app/build/outputs/apk/app-release.apk",
+    "android:devices": "$ANDROID_HOME/platform-tools/adb devices",
+    "android:logcat": "$ANDROID_HOME/platform-tools/adb logcat *:S ReactNative:V ReactNativeJS:V",
+    "android:shake": "$ANDROID_HOME/platform-tools/adb devices | grep '\\t' | awk '{print $1}' | sed 's/\\s//g' | xargs -I {} $ANDROID_HOME/platform-tools/adb -s {} shell input keyevent 82",
+    "prepush": "npm run git-hook",
+    "precommit": "npm run git-hook",
+    "git-hook": "npm run lint -s",
+    "lint": "standard --verbose | snazzy",
+    "lintdiff": "git diff --name-only --cached --relative | grep '\\.js$' | xargs standard | snazzy",
+    "fixcode": "standard --fix"
+  },
+  "dependencies": {
+    "react": "16.8.3",
+    "react-native": "0.59.9"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/runtime": "^7.4.5",
+    "babel-jest": "^24.8.0",
+    "jest": "^24.8.0",
+    "metro-react-native-babel-preset": "^0.54.1",
+    "react-test-renderer": "16.8.3"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
